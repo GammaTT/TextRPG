@@ -343,7 +343,7 @@ namespace TextRPG
             return characterInfo;
         }
 
-        public string[] GetInventoryInfo()
+        /*public string[] GetInventoryInfo()
         {
             string[] inventoryInfo = new string[]
             {
@@ -356,9 +356,9 @@ namespace TextRPG
             {
                 string temp = item.isPlayerEquip ? "[E]" : "";
             }
-            //
+            
             return inventoryInfo;
-        }
+        }*/
 
         /*public string[] GetItemString()
         {
@@ -401,9 +401,22 @@ namespace TextRPG
             return shopItemList.ToArray();
         }
 
-        public void BuyItem(int itemNumber)
+        public bool BuyItem(GameCharacter player,int itemNumber)
         {
+            Item selectedItem = itemManager.items[itemNumber - 1];
 
+            if (player.gold >= selectedItem.price)
+            {
+                player.gold -= selectedItem.price;
+                player.itemList.Add(selectedItem);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
     }
 }
