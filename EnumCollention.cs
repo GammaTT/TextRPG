@@ -23,5 +23,17 @@ namespace EnumCollection
         Weapon = 2,
     }
 
+    public enum ItemStateForShop
+    {
+        None = 0,
+        ShowPrice,
+        Purchased,
+        ShowSellPrice
+    }
 
+    public enum ShopMode
+    {
+        ShowPrice = 0,
+        ShowSellPrice
+    }
 }

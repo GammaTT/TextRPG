@@ -23,11 +23,14 @@ namespace TextRPG
         public string[] PlzInputJob = { "원하시는  직업을 선택해주세요." };
 
 
-        public string[] InputZeroForExit = { "나가기" };
+        public string[] InputOneForExit = { "나가기" };
+        public string[] InputZeroForExit = { "\n0. 나가기" };
         public string[] Jobs = { "전사", "도적" };
         public string[] SaveOrCancel = { "저장", "취소" };
-        public string[] Activity = { "상태 보기", "인벤토리", "상점" };
-        public string[] BuyOrExit = { "아이템 구매", "나가기" };
+        public string[] Activity = { "상태 보기", "인벤토리", "상점" ,"임시", "휴식하기", "종료하기"};
+        public string[] BuyOrExit = { "아이템 구매", "아이템 판매", "나가기" };
+        public string[] EquipOrExit = { "아이템 장착", "나가기" };
+        public string[] RestOrExit = { "휴식하기", "나가기" };
 
         //메세지 출력
         public void OutputMessage(string[] message, bool Clear = false)
@@ -38,7 +41,7 @@ namespace TextRPG
             }
             else
             {
-                Console.WriteLine();
+                //Console.WriteLine();
             }
 
             foreach (var item in message)
@@ -47,7 +50,7 @@ namespace TextRPG
             }
         }
 
-        //메세지 넘버링 달고 출력
+        //메세지 넘버링 달고 출력 and 선택
         public int OutputMessageWithNumber(string[] message, bool Clear = false)
         {
             int selectNumber = -1;
@@ -68,6 +71,8 @@ namespace TextRPG
                     string printmessage = string.Format("{0}. {1}", i + 1, message[i]);
                     Console.WriteLine(printmessage);
                 }
+
+                //Console.WriteLine(InputZeroForExit[0]);
 
                 Console.WriteLine("\n원하는 행동을 입력해주세요 : \n");
 
@@ -94,6 +99,90 @@ namespace TextRPG
 
             inputNumber = selectNumber;
             return selectNumber;
+        }
+
+        public void OutputMessageWithNumberNoSelect(string[] message, bool Clear = false)
+        {
+            if (Clear)
+            {
+                Console.Clear();
+            }
+            else
+            {
+                Console.WriteLine();
+            }
+
+            for (int i = 0; i < message.Length; i++)
+            {
+                string printmessage = string.Format("{0}. {1}", i + 1, message[i]);
+                Console.WriteLine(printmessage);
+            }
+        }
+
+        public int OutputMessageWithNumberZeroExit(string[] message, bool Clear = false)
+        {
+            int selectNumber = -1;
+
+            if (Clear)
+            {
+                Console.Clear();
+            }
+            else
+            {
+                Console.WriteLine();
+            }
+
+            while (true)
+            {
+                for (int i = 0; i < message.Length; i++)
+                {
+                    string printmessage = string.Format("{0}. {1}", i + 1, message[i]);
+                    Console.WriteLine(printmessage);
+                }
+
+                Console.WriteLine(InputZeroForExit[0]);
+
+                Console.WriteLine("\n원하는 행동을 입력해주세요 : \n");
+
+                try
+                {
+                    selectNumber = int.Parse(Console.ReadLine());
+                }
+                catch (Exception ex)
+                {
+                    //Console.Write(ex.ToString());
+                    Console.WriteLine("잘못된 입력입니다\n");
+                }
+
+                if (selectNumber == 0)
+                {
+                    return selectNumber;
+                }
+
+                if (!(0 < selectNumber && selectNumber <= message.Length))
+                {
+                    selectNumber = -1;
+                    Console.WriteLine("\n잘못된 숫자 입력입니다\n");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            inputNumber = selectNumber;
+            return selectNumber;
+        }
+
+        public void BuyComplete()
+        {
+            Console.WriteLine("구매완료");
+            Console.ReadLine();
+        }
+        public void BuyFail()
+        {
+            Console.WriteLine("구매실패");
+            Console.ReadLine();
         }
     }
 }
