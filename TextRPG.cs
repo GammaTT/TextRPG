@@ -28,6 +28,7 @@ namespace TextRPG
     {
         Shop shop = new Shop();
         Shelter shelter = new Shelter();
+        Dungeon dungeon = new Dungeon();
         IOManager ioManager = new IOManager();
         GameCharacter playerCharacter = new GameCharacter();
 
@@ -55,6 +56,7 @@ namespace TextRPG
             ioManager.OutputMessage(ioManager.PlzInputJob);
             ioManager.OutputMessageWithNumber(ioManager.Jobs);
             playerCharacter.job = (Job)ioManager.inputNumber;
+            playerCharacter.SetJob(); // 직업에 따른 보너스 스탯
             Game();
         }
 
@@ -142,6 +144,50 @@ namespace TextRPG
                             ioManager.OutputMessage(shop.GetShopItemsIntroForSell(playerCharacter.gold), true);
                             int SellSelect = ioManager.OutputMessageWithNumber(playerCharacter.GetInventoryInfoForSell(), false);
                             shop.SellItem(playerCharacter, SellSelect);
+                        }
+                    }
+
+                    break;
+
+                    //던전 입장
+                case 4:
+                    
+                    while (select != 4)
+                    {
+                        select = ioManager.OutputMessageWithNumber(ioManager.DungeonSelect, true);
+
+                        if (select == 4)
+                        {
+                            break;
+                        }
+
+                        if (dungeon.InDungeon(playerCharacter, select) == true)
+                        {
+                            //플레이어 사망
+                            if (playerCharacter.currentHP <= dungeon.damage)
+                            {
+                                ioManager.OutputMessage(playerCharacter.PlayerDie(), true);
+
+                                return 6;
+                            }
+
+                            ioManager.OutputMessage(dungeon.DungeonClear(playerCharacter), true);
+
+                            ioManager.OutputMessageWithNumber(ioManager.InputOneForExit, false);
+
+                            if (playerCharacter.DungeonClear() == true)
+                            {
+                                ioManager.OutputMessage(playerCharacter.LevelUp(), true);
+
+                                ioManager.OutputMessageWithNumber(ioManager.InputOneForExit, false);
+                            }
+                        }
+                        else
+                        {
+                            ioManager.OutputMessage(dungeon.DungeonFail(playerCharacter), true);
+
+                            ioManager.OutputMessageWithNumber(ioManager.InputOneForExit, false);
+
                         }
                     }
 

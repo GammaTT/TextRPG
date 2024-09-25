@@ -20,8 +20,6 @@ namespace TextRPG
         public int armor = 5;
         public int maxHP = 100;
         public int currentHP = 100;
-        public int exp = 0;
-        public int maxEXP = 100;
         public int gold = 30000;
         //public bool equipArmor = false;
         //public bool equipWeapon = false;
@@ -60,9 +58,9 @@ namespace TextRPG
                 $"Lv. {level.ToString("00")}",
                 $"Chad ( {jobName} )",
                 // 공격력 계산
-                $"공격력 : {(equipWeapon != null ? attackDamage + equipWeapon.attackDamage : attackDamage)} (+{(equipWeapon != null ? equipWeapon.attackDamage : 0)})",
+                $"공격력 : {attackDamage} (+{(equipWeapon != null ? equipWeapon.attackDamage : 0)})",
                 // 방어력 계산
-                $"방어력 : {(equipArmor != null ? armor + equipArmor.armor : armor)} (+{(equipArmor != null ? equipArmor.armor : 0)})",
+                $"방어력 : {armor} (+{(equipArmor != null ? equipArmor.armor : 0)})",
                 $"체력 : {currentHP} / {maxHP}",
                 $"Gold : {gold} G"
             };
@@ -70,7 +68,20 @@ namespace TextRPG
             return characterInfo;
         }
 
-        public string[] GetInventoryInfoIntro()
+        public void SetJob()
+        {
+            switch (job)
+            {
+                case Job.Warrior:
+                    armor += 3;
+                    break;
+
+                case Job.Thief:
+                    attackDamage += 3;
+                    break;
+            }
+        }
+            public string[] GetInventoryInfoIntro()
         {
             List<string> inventoryInfo = new List<string>()
             {
@@ -131,13 +142,13 @@ namespace TextRPG
                 if (item == equipWeapon)
                 {
                     item.isPlayerEquip = false;
-                    //attackDamage -= equipWeapon.attackDamage;
+                    attackDamage -= equipWeapon.attackDamage;
                     equipWeapon = null;
                 }
                 else if (item == equipArmor)
                 {
                     item.isPlayerEquip = false;
-                    //armor -= equipArmor.armor;
+                    armor -= equipArmor.armor;
                     equipArmor = null;
                 }
             }
@@ -154,10 +165,9 @@ namespace TextRPG
                         if (equipArmor != null)
                         {
                             equipArmor.isPlayerEquip = false;
-                            //armor -= equipArmor.armor;
+                            armor -= equipArmor.armor;
                         }
-                        //armor += item.armor;
-
+                        armor += item.armor;
                         equipArmor = item;
 
                         break;
@@ -167,11 +177,11 @@ namespace TextRPG
                         if (equipWeapon != null)
                         {
                             equipWeapon.isPlayerEquip = false;
-                            //attackDamage -= equipWeapon.attackDamage;
+                            attackDamage -= equipWeapon.attackDamage;
                         }
 
                         equipWeapon = item;
-                        //attackDamage += item.attackDamage;
+                        attackDamage += item.attackDamage;
 
                         break;
                 }
@@ -179,22 +189,43 @@ namespace TextRPG
             }
         }
 
-        public void DungeonClear()
+        public bool DungeonClear()
         {
             dungeonClearCount++;
 
             if (dungeonClearCount >= ToLevelUpCount)
             {
-                LevelUp();
+                return true;
             }
+
+            return false;
         }
-        public void LevelUp()
+        public String[] LevelUp()
         {
             attackDamage += 0.5f;
             armor += 1;
+            //currentHP = maxHP; 자동 힐 말고 여관 가게
 
             dungeonClearCount = 0;
             ToLevelUpCount++;
+
+            List<String> levelUpText = new List<String>();
+
+            levelUpText.Add("플레이어 레벨업!!");
+            levelUpText.Add("기본 공격력 0.5 추가");
+            levelUpText.Add("기본 방어력 1 추가");
+            levelUpText.Add($"다음 레벨업시 필요한 던전 클리어 횟수 : {ToLevelUpCount}");
+
+            return levelUpText.ToArray();
+        }
+
+        public String[] PlayerDie()
+        {
+            List<String> dieMessage = new List<String>();
+
+            dieMessage.Add("플레이어가 죽었습니다...");
+
+            return dieMessage.ToArray();
         }
     }
 }

@@ -132,14 +132,19 @@ namespace TextRPG
 
             if (player.equipWeapon == selectedItem)
             {
+                player.attackDamage -= player.equipWeapon.attackDamage;
                 player.equipWeapon = null;
             }
 
             if (player.equipArmor == selectedItem)
             {
+                player.armor -= player.equipArmor.armor;
                 player.equipArmor = null;
             }
 
+            selectedItem.shopItemState = ItemStateForShop.ShowPrice;
+            selectedItem.isPlayerBuy = false;
+            selectedItem.isPlayerEquip = false;
             player.itemList.Remove(selectedItem);
 
         }
