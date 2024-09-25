@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using EnumCollection;
+using TextRPG;
 
 namespace TextRPG
 {
@@ -136,99 +137,6 @@ namespace TextRPG
             }
         }
 
-    }
-
-    class IOManager
-    {
-        public int inputNumber;
-        string inputString = "";
-        public string InputString
-        {
-            get { return inputString; }
-            set { inputString = value; }
-        }
-
-        public readonly string[] GameStart = {"스파르타 마을에 오신 여러분 환영합니다.",
-            "이곳에서 던전으로 들어가기전 활동을 할 수 있습니다."};
-        public string[] PlzInputName = { "원하시는 이름을 입력해주세요.\n" };
-        public string[] PlzInputJob = { "원하시는  직업을 선택해주세요." }; 
-
-
-        public string[] InputZeroForExit = { "나가기" };
-        public string[] Jobs = { "전사", "도적" };
-        public string[] SaveOrCancel = { "저장", "취소" };
-        public string[] Activity = { "상태 보기", "인벤토리", "상점" };
-        public string[] BuyOrExit = { "아이템 구매", "나가기" };
-
-        public void OutputMessage(string[] message, bool Clear = false)
-        {
-            if (Clear)
-            {
-                Console.Clear();
-            }
-            else
-            {
-                Console.WriteLine();
-            }
-
-            foreach (var item in message)
-            {
-                Console.WriteLine(item);
-            }
-        }
-
-        public int OutputMessageWithNumber(string[] message , bool Clear = false)
-        {
-            int selectNumber = -1;
-
-            if (Clear)
-            {
-                Console.Clear();
-            }
-            else
-            {
-                Console.WriteLine();
-            }
-
-            while (true)
-            {
-                for (int i = 0; i < message.Length; i++)
-                {
-                    string printmessage = string.Format("{0}. {1}", i + 1, message[i]);
-                    Console.WriteLine(printmessage);
-                }
-
-                Console.WriteLine("\n원하는 행동을 입력해주세요 : \n");
-
-                try
-                {
-                    selectNumber = int.Parse(Console.ReadLine());
-                }
-                catch (Exception ex)
-                {
-                    //Console.Write(ex.ToString());
-                    Console.WriteLine("잘못된 입력입니다\n");
-                }
-
-                if (!(0 < selectNumber && selectNumber <= message.Length))
-                {
-                    selectNumber = -1;
-                    Console.WriteLine("\n잘못된 숫자 입력입니다\n");
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            inputNumber = selectNumber;
-            return selectNumber;
-        }
-
-        public void PrintItemList(List<Item> itemList)
-        {
-
-        }
     }
 
     class ItemManager
@@ -366,57 +274,5 @@ namespace TextRPG
         }*/
     }
 
-    class Shop
-    {
-        public ItemManager itemManager = new ItemManager();
-
-        public string[] GetShopItemsIntro(int playerGold)
-        {
-            List<string> shopList = new List<string>()
-            {
-                "상점",
-                "필요한 아이템을 얻을 수 있는 상점입니다.\n",
-                "[보유 골드]",
-                $"{playerGold} G\n",
-                "[아이템 목록]\n",
-            };
-
-            /*foreach (var item in itemManager.items)
-            {
-                shopList.Add(item.GetItemInfo());
-            }*/
-
-            return shopList.ToArray();
-        }
-
-        public string[] GetShopItemList()
-        {
-            List<String> shopItemList = new List<string>();
-
-            foreach (var item in itemManager.items)
-            {
-                shopItemList.Add(item.GetItemInfo());
-            }
-
-            return shopItemList.ToArray();
-        }
-
-        public bool BuyItem(GameCharacter player,int itemNumber)
-        {
-            Item selectedItem = itemManager.items[itemNumber - 1];
-
-            if (player.gold >= selectedItem.price)
-            {
-                player.gold -= selectedItem.price;
-                player.itemList.Add(selectedItem);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-            
-        }
-    }
+    
 }
