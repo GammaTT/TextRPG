@@ -6,11 +6,6 @@ using System.Threading.Tasks;
 
 namespace EnumCollection
 {
-    public enum Scene
-    {
-        InitScene = 0,
-    }
-
     public enum Job
     {
         Warrior = 1,

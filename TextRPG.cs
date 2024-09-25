@@ -29,8 +29,6 @@ namespace TextRPG
         IOManager ioManager = new IOManager();
         GameCharacter playerCharacter = new GameCharacter();
 
-        Scene scene = 0;
-
         string name = "";
 
         public void GameStart()
