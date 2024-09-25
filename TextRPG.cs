@@ -14,9 +14,6 @@ namespace TextRPG
         static void Main()
         {
             GameManager gameManager = new GameManager();
-            //OutputManager outputManager = new OutputManager();
-
-            //outputManager.OutputMessage(outputManager.GameStart);
 
             gameManager.GameStart();
         }
@@ -43,7 +40,8 @@ namespace TextRPG
             while (true)
             {
                 ioManager.OutputMessage(ioManager.PlzInputName);
-                ioManager.InputString = Console.ReadLine().ToString();
+                ioManager.InputStringFunc();
+
                 if (ioManager.OutputMessageWithNumber(ioManager.SaveOrCancel) == 1)
                 {
                     break;
@@ -136,8 +134,7 @@ namespace TextRPG
                         {
                             if (playerCharacter.itemList.Count == 0)
                             {
-                                Console.WriteLine("판매할 장비가 없습니다.");
-                                Console.ReadLine();
+                                ioManager.SellFail();
 
                                 break;
                             }

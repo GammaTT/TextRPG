@@ -21,9 +21,6 @@ namespace TextRPG
         public int maxHP = 100;
         public int currentHP = 100;
         public int gold = 30000;
-        //public bool equipArmor = false;
-        //public bool equipWeapon = false;
-
 
         public Item? equipArmor;
         public Item? equipWeapon;
@@ -185,7 +182,6 @@ namespace TextRPG
 
                         break;
                 }
-
             }
         }
 

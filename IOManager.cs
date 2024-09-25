@@ -37,6 +37,11 @@ namespace TextRPG
             "나가기"
         };
 
+        public void InputStringFunc()
+        {
+            InputString = Console.ReadLine().ToString();
+        }
+
         //메세지 출력
         public void OutputMessage(string[] message, bool Clear = false)
         {
@@ -187,6 +192,12 @@ namespace TextRPG
         public void BuyFail()
         {
             Console.WriteLine("구매실패");
+            Console.ReadLine();
+        }
+
+        public void SellFail()
+        {
+            Console.WriteLine("판매할 장비가 없습니다.");
             Console.ReadLine();
         }
     }
