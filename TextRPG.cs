@@ -18,7 +18,6 @@ namespace TextRPG
             gameManager.GameStart();
         }
     }
-
     
 
     class GameManager
@@ -28,8 +27,6 @@ namespace TextRPG
         Dungeon dungeon = new Dungeon();
         IOManager ioManager = new IOManager();
         GameCharacter playerCharacter = new GameCharacter();
-
-        string name = "";
 
         public void GameStart()
         {
