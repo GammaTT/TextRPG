@@ -18,13 +18,14 @@ namespace TextRPG
             gameManager.GameStart();
         }
     }
-    
 
     class GameManager
     {
         Shop shop = new Shop();
         Shelter shelter = new Shelter();
         Dungeon dungeon = new Dungeon();
+
+        //IOManager는 문장을 전달받아 출력을 위주로 하는 객체
         IOManager ioManager = new IOManager();
         GameCharacter playerCharacter = new GameCharacter();
 
@@ -68,6 +69,7 @@ namespace TextRPG
         {
             int select = 0;
 
+            //1~6번 고르면
             switch (ioManager.OutputMessageWithNumber(ioManager.Activity, true))
             {
                 //캐릭터 상태(스탯)보기
@@ -141,9 +143,9 @@ namespace TextRPG
 
                     break;
 
-                    //던전 입장
+                //던전 입장
                 case 4:
-                    
+
                     while (select != 4)
                     {
                         select = ioManager.OutputMessageWithNumber(ioManager.DungeonSelect, true);
@@ -167,6 +169,7 @@ namespace TextRPG
 
                             ioManager.OutputMessageWithNumber(ioManager.InputOneForExit, false);
 
+                            //던전 클리어시
                             if (playerCharacter.DungeonClear() == true)
                             {
                                 ioManager.OutputMessage(playerCharacter.LevelUp(), true);
@@ -185,6 +188,7 @@ namespace TextRPG
 
                     break;
 
+                //휴식하기
                 case 5:
                     ioManager.OutputMessage(shelter.GetShelterIntro(playerCharacter.gold), true);
                     select = ioManager.OutputMessageWithNumber(ioManager.RestOrExit);
